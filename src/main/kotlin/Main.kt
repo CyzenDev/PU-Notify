@@ -77,7 +77,6 @@ fun handleData() {
     //暂时没做PU活动变化推送，所以清除数据
     mEventListOdd.clear()
     //刷新活动
-    println("下次获取时间：${simpleDateFormat.format(Date().apply { time += 1000 * 60 * duration })}")
     refresh()
 }
 
@@ -94,8 +93,10 @@ fun getEvent(page: Int = 1) {
             }
         }
         if (page < maxPage) getEvent(page + 1)
-        else if (mEventIdList.isEmpty()) refresh()//若没有活动则等待后继续获取，一般不会遇到
-        else getEventDetail(mEventIdList[0])
+        else if (mEventIdList.isEmpty()) {//若没有活动则等待后继续获取
+            println("未获取到符合筛选的活动，等待下一次获取！！！")
+            refresh()
+        } else getEventDetail(mEventIdList[0])
     }
 }
 
@@ -120,6 +121,7 @@ fun getEventDetail(id: Int) {
 }
 
 fun refresh() {
+    println("下次获取时间：${simpleDateFormat.format(Date().apply { time += 1000 * 60 * duration })}")
     executorService.submit {
         Runnable {
             Thread.sleep(1000 * 60 * duration)

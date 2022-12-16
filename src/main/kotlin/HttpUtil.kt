@@ -9,6 +9,8 @@ import java.util.concurrent.Executors
 
 object HttpUtil {
 
+    const val DEBUG = true
+
     private val executorService: ExecutorService = Executors.newCachedThreadPool()
     private var okHttpClient = OkHttpClient()
     private var mediaTypeJson = "application/json".toMediaTypeOrNull()
@@ -58,7 +60,7 @@ object HttpUtil {
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string().apply {
-                    println(this)
+                    if (DEBUG) println(this)
                     if (this == null) {
                         System.err.println("response body is empty!!!")
                         return

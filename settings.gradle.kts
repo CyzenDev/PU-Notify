@@ -1,2 +1,2 @@
-rootProject.name = "PU_REL"
+rootProject.name = "PU-Notify"
 
